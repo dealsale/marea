@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LogoMark } from "./Logo";
+import { ColombiaMap } from "./ColombiaMap";
 import { useLang } from "./LanguageContext";
 import { whatsappUrl } from "@/lib/format";
 
@@ -102,21 +102,13 @@ export function Hero({ whatsappNumber }: { whatsappNumber: string }) {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
-          className="relative hidden justify-center md:flex"
+          className="relative flex justify-center"
         >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 m-auto h-80 w-80 rounded-full border border-dashed border-marea-400/30"
-          />
-          <motion.div
-            className="animate-float"
-          >
-            <div className="absolute -inset-10 rounded-full bg-marea-500/30 blur-3xl" />
-            <LogoMark className="relative h-72 w-72 object-contain drop-shadow-[0_0_40px_rgba(139,92,246,0.5)]" />
+          <motion.div className="animate-float">
+            <ColombiaMap />
           </motion.div>
         </motion.div>
       </div>
