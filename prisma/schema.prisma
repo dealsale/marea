@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tour {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  titleEs      String
+  titleEn      String
+  summaryEs    String
+  summaryEn    String
+  descriptionEs String
+  descriptionEn String
+  price        Int       @default(0)      // COP price. 0 = free / a la gorra
+  currency     String    @default("COP")
+  durationMin  Int       @default(180)
+  category     String    @default("cultural")
+  meetingPoint String    @default("")
+  image        String    @default("")
+  maxPeople    Int       @default(15)
+  featured     Boolean   @default(false)
+  active       Boolean   @default(true)
+  order        Int       @default(0)
+  createdAt    DateTime  @default(now())
+  bookings     Booking[]
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId    String
+  name      String
+  email     String
+  phone     String
+  language  String   @default("es")   // es | en (tour language requested)
+  date      String                     // YYYY-MM-DD
+  timeSlot  String                     // e.g. "09:00"
+  people    Int      @default(1)
+  notes     String   @default("")
+  status    String   @default("pending") // pending | confirmed | cancelled
+  createdAt DateTime @default(now())
+}
