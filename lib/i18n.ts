@@ -5,10 +5,10 @@ export const dict = {
     nav: { tours: "Tours", about: "Nosotros", reviews: "Opiniones", book: "Reservar", faq: "Preguntas" },
     hero: {
       badge: "+5 años de experiencia · Guías bilingües",
-      title1: "Descubre la",
-      title2: "Comuna 13",
+      title1: "Descubre",
+      title2: "Colombia",
       subtitle:
-        "Tours culturales por el corazón de Medellín. Arte urbano, historia real y experiencias auténticas con guías locales. Algunos tours son gratis.",
+        "Experiencias culturales auténticas con guías locales, desde el arte urbano de la Comuna 13 hasta los rincones que enamoran de Colombia. Algunos tours son gratis.",
       ctaBook: "Reservar un tour",
       ctaWhatsapp: "Escríbenos por WhatsApp",
       stat1: "Años de experiencia",
@@ -29,7 +29,7 @@ export const dict = {
     },
     about: {
       title: "Somos Marea Tours",
-      p1: "Con más de 5 años recorriendo las calles de la Comuna 13, somos un equipo de guías locales apasionados por contar la verdadera historia de nuestro barrio.",
+      p1: "Con más de 5 años mostrando Colombia, somos un equipo de guías locales apasionados por contar la verdadera historia de nuestra tierra, desde la Comuna 13 en Medellín hasta cada destino que ofrecemos.",
       p2: "Ofrecemos tours en español e inglés, con la calidez y el conocimiento que solo alguien de la comunidad puede dar. Cada recorrido apoya directamente a las familias del sector.",
       f1: "Guías 100% locales y bilingües",
       f2: "Grupos pequeños y personalizados",
@@ -89,9 +89,9 @@ export const dict = {
     hero: {
       badge: "+5 years of experience · Bilingual guides",
       title1: "Discover",
-      title2: "Comuna 13",
+      title2: "Colombia",
       subtitle:
-        "Cultural tours through the heart of Medellín. Street art, real history and authentic experiences with local guides. Some tours are free.",
+        "Authentic cultural experiences with local guides — from the street art of Comuna 13 to the corners of Colombia you'll fall in love with. Some tours are free.",
       ctaBook: "Book a tour",
       ctaWhatsapp: "Message us on WhatsApp",
       stat1: "Years of experience",
@@ -112,7 +112,7 @@ export const dict = {
     },
     about: {
       title: "We are Marea Tours",
-      p1: "With over 5 years walking the streets of Comuna 13, we are a team of local guides passionate about telling the true story of our neighborhood.",
+      p1: "With over 5 years showing Colombia, we are a team of local guides passionate about telling the true story of our land — from Comuna 13 in Medellín to every destination we offer.",
       p2: "We offer tours in Spanish and English, with the warmth and knowledge only someone from the community can provide. Every tour directly supports local families.",
       f1: "100% local & bilingual guides",
       f2: "Small, personalized groups",

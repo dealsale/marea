@@ -30,11 +30,25 @@ export function createSessionToken() {
   return sign(`admin|${expiry}`);
 }
 
+function safeEqual(a: string, b: string) {
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
+}
+
 export function checkPassword(password: string) {
   const expected = process.env.ADMIN_PASSWORD || "";
   if (!expected) return false;
-  if (password.length !== expected.length) return false;
-  return crypto.timingSafeEqual(Buffer.from(password), Buffer.from(expected));
+  return safeEqual(password, expected);
+}
+
+export function checkCredentials(username: string, password: string) {
+  const expectedUser = process.env.ADMIN_USERNAME || "admin";
+  const expectedPass = process.env.ADMIN_PASSWORD || "";
+  if (!expectedPass) return false;
+  // Compare both; evaluate password even if user is wrong to avoid timing leaks.
+  const userOk = safeEqual(username, expectedUser);
+  const passOk = safeEqual(password, expectedPass);
+  return userOk && passOk;
 }
 
 export async function isAuthenticated(): Promise<boolean> {

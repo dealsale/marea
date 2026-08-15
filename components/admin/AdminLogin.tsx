@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { LogoMark } from "../Logo";
 
 export function AdminLogin() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ export function AdminLogin() {
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -46,12 +47,22 @@ export function AdminLogin() {
           <h1 className="mt-4 font-display text-2xl font-bold text-white">Panel Admin</h1>
           <p className="mt-1 text-sm text-marea-300">Marea Tours</p>
         </div>
-        <label className="mt-8 block text-sm text-marea-300">Contraseña</label>
+        <label className="mt-8 block text-sm text-marea-300">Usuario</label>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          autoFocus
+          autoComplete="username"
+          className="mt-1.5 w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-white outline-none focus:border-marea-400"
+          placeholder="admin"
+        />
+        <label className="mt-4 block text-sm text-marea-300">Contraseña</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          autoFocus
+          autoComplete="current-password"
           className="mt-1.5 w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-white outline-none focus:border-marea-400"
           placeholder="••••••••"
         />

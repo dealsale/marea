@@ -23,6 +23,7 @@ En el servicio de la app, pestaña **Variables**, agrega:
 | Variable | Valor |
 |---|---|
 | `DATABASE_URL` | (referencia al Postgres, ver paso 2) |
+| `ADMIN_USERNAME` | tu usuario para entrar a `/admin` (ej. `marea`) |
 | `ADMIN_PASSWORD` | la contraseña que quieras para `/admin` |
 | `SESSION_SECRET` | una cadena larga y aleatoria |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | tu WhatsApp con indicativo, solo dígitos (ej. `573001234567`) |
