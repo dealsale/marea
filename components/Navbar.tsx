@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Logo } from "./Logo";
+import { InstallButton } from "./pwa/InstallButton";
 import { useLang } from "./LanguageContext";
 
 export function Navbar() {
@@ -65,6 +66,9 @@ export function Navbar() {
               </button>
             ))}
           </div>
+          <div className="hidden lg:block">
+            <InstallButton variant="nav" />
+          </div>
           <a
             href="#book"
             className="btn-glow hidden rounded-full bg-gradient-to-r from-marea-500 to-marea-700 px-5 py-2 text-sm font-semibold text-white sm:block"
@@ -101,6 +105,9 @@ export function Navbar() {
               {l.label}
             </a>
           ))}
+          <div className="px-3 py-2" onClick={() => setOpen(false)}>
+            <InstallButton variant="nav" />
+          </div>
         </motion.nav>
       )}
     </motion.header>

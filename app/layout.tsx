@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cinzel, Inter } from "next/font/google";
 import "./globals.css";
+import { ServiceWorker } from "@/components/pwa/ServiceWorker";
 
 const display = Cinzel({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-display" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -27,12 +28,23 @@ export const metadata: Metadata = {
     description: "Tours culturales bilingües por la Comuna 13. Reserva online, algunos tours gratis.",
     images: ["/logo.png"],
   },
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Marea Tours" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#2e1065",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${display.variable} ${sans.variable}`}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <ServiceWorker />
+      </body>
     </html>
   );
 }
