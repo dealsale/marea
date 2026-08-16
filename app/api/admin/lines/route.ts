@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         taglineEs: b.taglineEs || "",
         taglineEn: b.taglineEn || "",
         emoji: b.emoji || "🌊",
-        color: b.color || "#7c3aed",
+        color: b.color || "#db2777",
         image: b.image || "",
         order: Number(b.order) || 0,
         active: b.active !== false,

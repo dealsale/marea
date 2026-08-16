@@ -3,7 +3,7 @@
 // Themed illustrative artwork per tour (no external images needed).
 const themes: Record<string, { from: string; to: string; icon: JSX.Element }> = {
   graffiti: {
-    from: "#7c3aed",
+    from: "#db2777",
     to: "#db2777",
     icon: (
       <g>
@@ -15,7 +15,7 @@ const themes: Record<string, { from: string; to: string; icon: JSX.Element }> = 
     ),
   },
   english: {
-    from: "#6d28d9",
+    from: "#be185d",
     to: "#2563eb",
     icon: (
       <g>
@@ -27,7 +27,7 @@ const themes: Record<string, { from: string; to: string; icon: JSX.Element }> = 
   },
   sunset: {
     from: "#b45309",
-    to: "#7c3aed",
+    to: "#db2777",
     icon: (
       <g>
         <circle cx="100" cy="105" r="34" fill="#fde047" />
@@ -37,7 +37,7 @@ const themes: Record<string, { from: string; to: string; icon: JSX.Element }> = 
     ),
   },
   vip: {
-    from: "#4c1d95",
+    from: "#7a1540",
     to: "#a21caf",
     icon: (
       <g>
@@ -51,7 +51,7 @@ const themes: Record<string, { from: string; to: string; icon: JSX.Element }> = 
   },
   food: {
     from: "#be123c",
-    to: "#7c3aed",
+    to: "#db2777",
     icon: (
       <g>
         <circle cx="100" cy="100" r="40" fill="none" stroke="#fff" strokeWidth="6" />
@@ -62,7 +62,7 @@ const themes: Record<string, { from: string; to: string; icon: JSX.Element }> = 
     ),
   },
   workshop: {
-    from: "#7c3aed",
+    from: "#db2777",
     to: "#0891b2",
     icon: (
       <g>

@@ -418,7 +418,7 @@ function LinesTab({ lines, reload }: { lines: Line[]; reload: () => void }) {
 function LineEditor({ line, onClose, onSaved }: { line: Line | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({
     nameEs: line?.nameEs || "", nameEn: line?.nameEn || "", taglineEs: line?.taglineEs || "", taglineEn: line?.taglineEn || "",
-    emoji: line?.emoji || "🌊", color: line?.color || "#7c3aed", order: line?.order ?? 0, slug: line?.slug || "",
+    emoji: line?.emoji || "🌊", color: line?.color || "#db2777", order: line?.order ?? 0, slug: line?.slug || "",
   });
   const [saving, setSaving] = useState(false);
   const set = (k: string, v: any) => setForm((f) => ({ ...f, [k]: v }));
