@@ -7,43 +7,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Tour {
-  id           String    @id @default(cuid())
-  slug         String    @unique
-  titleEs      String
-  titleEn      String
-  summaryEs    String
-  summaryEn    String
-  descriptionEs String
-  descriptionEn String
-  price        Int       @default(0)      // COP price. 0 = free / a la gorra
-  currency     String    @default("COP")
-  durationMin  Int       @default(180)
-  category     String    @default("cultural")
-  meetingPoint String    @default("")
-  image        String    @default("")               // theme keyword | image URL | data URL
-  availableDays String   @default("0,1,2,3,4,5,6")   // weekdays the tour runs (0=Sun..6=Sat)
-  blockedDates String    @default("")                // comma-separated YYYY-MM-DD to disable
-  maxPeople    Int       @default(15)
-  featured     Boolean   @default(false)
-  active       Boolean   @default(true)
-  order        Int       @default(0)
-  createdAt    DateTime  @default(now())
-  bookings     Booking[]
+// Business line / region: Marea Paisa, Marea Caribe, Marea Selva y Mar...
+model Line {
+  id         String    @id @default(cuid())
+  slug       String    @unique
+  nameEs     String
+  nameEn     String
+  taglineEs  String    @default("")
+  taglineEn  String    @default("")
+  emoji      String    @default("🌊")
+  color      String    @default("#7c3aed")
+  image      String    @default("")
+  order      Int       @default(0)
+  active     Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  packages   Package[]
+}
+
+// A package inside a line, of a given type (tour | escape | hospedaje)
+model Package {
+  id            String     @id @default(cuid())
+  slug          String     @unique
+  line          Line       @relation(fields: [lineId], references: [id], onDelete: Cascade)
+  lineId        String
+  type          String     @default("tour") // tour | escape | hospedaje
+  titleEs       String
+  titleEn       String
+  summaryEs     String     @default("")
+  summaryEn     String     @default("")
+  descriptionEs String     @default("")
+  descriptionEn String     @default("")
+  price         Int        @default(0)      // tour/escape: per person · hospedaje: per night · 0 = gratis
+  currency      String     @default("COP")
+  durationMin   Int        @default(180)    // tour/escape length
+  meetingPoint  String     @default("")
+  image         String     @default("")     // theme keyword | URL | data URL
+  availableDays String     @default("0,1,2,3,4,5,6")
+  blockedDates  String     @default("")
+  maxPeople     Int        @default(15)
+  featured      Boolean    @default(false)
+  active        Boolean    @default(true)
+  order         Int        @default(0)
+  createdAt     DateTime   @default(now())
+  activities    Activity[]
+  bookings      Booking[]
+}
+
+// An activity inside a package. Can be included, an optional paid extra, or bookable on its own.
+model Activity {
+  id            String    @id @default(cuid())
+  package       Package   @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  packageId     String
+  nameEs        String
+  nameEn        String
+  descEs        String    @default("")
+  descEn        String    @default("")
+  price         Int       @default(0)     // extra price per person (0 = included)
+  optional      Boolean   @default(false) // shown as a selectable paid extra
+  bookableAlone Boolean   @default(false) // can be booked without the package
+  durationMin   Int       @default(60)
+  order         Int       @default(0)
+  bookings      Booking[]
 }
 
 model Booking {
-  id        String   @id @default(cuid())
-  tour      Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
-  tourId    String
-  name      String
-  email     String
-  phone     String
-  language  String   @default("es")   // es | en (tour language requested)
-  date      String                     // YYYY-MM-DD
-  timeSlot  String                     // e.g. "09:00"
-  people    Int      @default(1)
-  notes     String   @default("")
-  status    String   @default("pending") // pending | confirmed | cancelled
-  createdAt DateTime @default(now())
+  id         String    @id @default(cuid())
+  package    Package?  @relation(fields: [packageId], references: [id], onDelete: SetNull)
+  packageId  String?
+  activity   Activity? @relation(fields: [activityId], references: [id], onDelete: SetNull)
+  activityId String?
+  name       String
+  email      String
+  phone      String
+  language   String    @default("es")
+  date       String                       // start / check-in (YYYY-MM-DD)
+  endDate    String?                       // check-out for hospedaje
+  timeSlot   String    @default("")        // start hour for tour/escape
+  nights     Int       @default(1)
+  people     Int       @default(1)
+  extras     String    @default("")        // csv of optional activity ids
+  notes      String    @default("")
+  status     String    @default("pending") // pending | confirmed | cancelled
+  total      Int       @default(0)
+  createdAt  DateTime  @default(now())
 }

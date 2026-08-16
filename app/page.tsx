@@ -1,37 +1,66 @@
 import { prisma } from "@/lib/prisma";
 import { HomeClient } from "@/components/HomeClient";
-import type { TourDTO } from "@/lib/types";
+import type { LineDTO } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const tours = await prisma.tour.findMany({
+  const lines = await prisma.line.findMany({
     where: { active: true },
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    include: {
+      packages: {
+        where: { active: true },
+        orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+        include: { activities: { orderBy: { order: "asc" } } },
+      },
+    },
   });
 
-  const dto: TourDTO[] = tours.map((t) => ({
-    id: t.id,
-    slug: t.slug,
-    titleEs: t.titleEs,
-    titleEn: t.titleEn,
-    summaryEs: t.summaryEs,
-    summaryEn: t.summaryEn,
-    descriptionEs: t.descriptionEs,
-    descriptionEn: t.descriptionEn,
-    price: t.price,
-    currency: t.currency,
-    durationMin: t.durationMin,
-    category: t.category,
-    meetingPoint: t.meetingPoint,
-    image: t.image,
-    availableDays: t.availableDays,
-    blockedDates: t.blockedDates,
-    maxPeople: t.maxPeople,
-    featured: t.featured,
+  const dto: LineDTO[] = lines.map((l) => ({
+    id: l.id,
+    slug: l.slug,
+    nameEs: l.nameEs,
+    nameEn: l.nameEn,
+    taglineEs: l.taglineEs,
+    taglineEn: l.taglineEn,
+    emoji: l.emoji,
+    color: l.color,
+    image: l.image,
+    packages: l.packages.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      lineId: p.lineId,
+      type: p.type,
+      titleEs: p.titleEs,
+      titleEn: p.titleEn,
+      summaryEs: p.summaryEs,
+      summaryEn: p.summaryEn,
+      descriptionEs: p.descriptionEs,
+      descriptionEn: p.descriptionEn,
+      price: p.price,
+      currency: p.currency,
+      durationMin: p.durationMin,
+      meetingPoint: p.meetingPoint,
+      image: p.image,
+      availableDays: p.availableDays,
+      blockedDates: p.blockedDates,
+      maxPeople: p.maxPeople,
+      featured: p.featured,
+      activities: p.activities.map((a) => ({
+        id: a.id,
+        nameEs: a.nameEs,
+        nameEn: a.nameEn,
+        descEs: a.descEs,
+        descEn: a.descEn,
+        price: a.price,
+        optional: a.optional,
+        bookableAlone: a.bookableAlone,
+        durationMin: a.durationMin,
+      })),
+    })),
   }));
 
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "573001234567";
-
-  return <HomeClient tours={dto} whatsappNumber={whatsappNumber} />;
+  return <HomeClient lines={dto} whatsappNumber={whatsappNumber} />;
 }
