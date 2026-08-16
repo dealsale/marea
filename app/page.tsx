@@ -25,6 +25,8 @@ export default async function Home() {
     category: t.category,
     meetingPoint: t.meetingPoint,
     image: t.image,
+    availableDays: t.availableDays,
+    blockedDates: t.blockedDates,
     maxPeople: t.maxPeople,
     featured: t.featured,
   }));

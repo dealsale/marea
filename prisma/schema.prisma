@@ -21,7 +21,9 @@ model Tour {
   durationMin  Int       @default(180)
   category     String    @default("cultural")
   meetingPoint String    @default("")
-  image        String    @default("")
+  image        String    @default("")               // theme keyword | image URL | data URL
+  availableDays String   @default("0,1,2,3,4,5,6")   // weekdays the tour runs (0=Sun..6=Sat)
+  blockedDates String    @default("")                // comma-separated YYYY-MM-DD to disable
   maxPeople    Int       @default(15)
   featured     Boolean   @default(false)
   active       Boolean   @default(true)

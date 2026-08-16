@@ -37,6 +37,8 @@ export async function POST(req: Request) {
         category: b.category || "cultural",
         meetingPoint: b.meetingPoint || "",
         image: b.image || "graffiti",
+        availableDays: b.availableDays || "0,1,2,3,4,5,6",
+        blockedDates: b.blockedDates || "",
         maxPeople: Number(b.maxPeople) || 15,
         featured: Boolean(b.featured),
         active: b.active !== false,

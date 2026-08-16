@@ -13,6 +13,8 @@ export type TourDTO = {
   category: string;
   meetingPoint: string;
   image: string;
+  availableDays: string;
+  blockedDates: string;
   maxPeople: number;
   featured: boolean;
 };

@@ -75,7 +75,15 @@ const themes: Record<string, { from: string; to: string; icon: JSX.Element }> = 
   },
 };
 
+export function isPhoto(image: string) {
+  return /^(https?:\/\/|data:image\/)/.test(image || "");
+}
+
 export function TourImage({ image, className = "" }: { image: string; className?: string }) {
+  if (isPhoto(image)) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={image} alt="" className={className} style={{ objectFit: "cover", width: "100%", height: "100%" }} />;
+  }
   const theme = themes[image] ?? themes.graffiti;
   return (
     <svg viewBox="0 0 200 170" className={className} preserveAspectRatio="xMidYMid slice" aria-hidden="true">

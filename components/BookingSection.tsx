@@ -66,6 +66,26 @@ export function BookingSection({
   const selectedTour = tours.find((x) => x.id === form.tourId);
   const set = (k: string, v: string | number) => setForm((f) => ({ ...f, [k]: v }));
 
+  // per-tour availability
+  const availSet = useMemo(
+    () => new Set((selectedTour?.availableDays ?? "0,1,2,3,4,5,6").split(",").filter(Boolean).map(Number)),
+    [selectedTour]
+  );
+  const blockedSet = useMemo(
+    () => new Set((selectedTour?.blockedDates ?? "").split(",").map((s) => s.trim()).filter(Boolean)),
+    [selectedTour]
+  );
+  const dayOk = (d: Date) => d >= today && availSet.has(d.getDay()) && !blockedSet.has(iso(d));
+
+  // if the tour changes and the chosen date is no longer valid, clear it
+  useEffect(() => {
+    if (selDate && !(selDate >= today && availSet.has(selDate.getDay()) && !blockedSet.has(iso(selDate)))) {
+      setSelDate(null);
+      setForm((f) => ({ ...f, date: "" }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.tourId]);
+
   // calendar cells
   const cells = useMemo(() => {
     const first = new Date(view.y, view.m, 1);
@@ -207,19 +227,20 @@ export function BookingSection({
                       <div className="grid grid-cols-7 gap-1">
                         {cells.map((d, i) => {
                           if (!d) return <span key={`e${i}`} />;
-                          const past = d < today;
+                          const ok = dayOk(d);
                           const isToday = d.getTime() === today.getTime();
                           const isSel = !!selDate && iso(d) === iso(selDate);
                           return (
                             <motion.button
                               key={iso(d)}
                               type="button"
-                              disabled={past}
+                              disabled={!ok}
                               onClick={() => pickDate(d)}
                               whileTap={{ scale: 0.9 }}
+                              title={!ok && d >= today ? (lang === "es" ? "No disponible" : "Not available") : undefined}
                               className={[
                                 "aspect-square rounded-lg text-sm transition-colors",
-                                past ? "cursor-not-allowed text-marea-700" : "text-marea-100 hover:bg-marea-700/40",
+                                !ok ? "cursor-not-allowed text-marea-700 line-through decoration-marea-700/60" : "text-marea-100 hover:bg-marea-700/40",
                                 isToday && !isSel ? "border border-marea-400" : "",
                                 isSel
                                   ? "bg-gradient-to-br from-marea-400 to-marea-700 font-bold text-white shadow-lg shadow-marea-700/40"

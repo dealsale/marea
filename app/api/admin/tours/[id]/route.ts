@@ -10,7 +10,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   const data: Record<string, unknown> = {};
   const fields = [
     "titleEs", "titleEn", "summaryEs", "summaryEn", "descriptionEs", "descriptionEn",
-    "meetingPoint", "image", "category",
+    "meetingPoint", "image", "category", "availableDays", "blockedDates",
   ];
   for (const f of fields) if (b[f] !== undefined) data[f] = b[f];
   if (b.price !== undefined) data.price = Number(b.price) || 0;

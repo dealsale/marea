@@ -31,6 +31,8 @@ type Tour = {
   maxPeople: number;
   category: string;
   image: string;
+  availableDays: string;
+  blockedDates: string;
   featured: boolean;
   active: boolean;
   order: number;
@@ -357,6 +359,33 @@ function ToursTab({ tours, reload }: { tours: Tour[]; reload: () => void }) {
   );
 }
 
+const WEEK = [
+  { i: 1, l: "Lun" }, { i: 2, l: "Mar" }, { i: 3, l: "Mié" }, { i: 4, l: "Jue" },
+  { i: 5, l: "Vie" }, { i: 6, l: "Sáb" }, { i: 0, l: "Dom" },
+];
+const isPhoto = (s: string) => /^(https?:\/\/|data:image\/)/.test(s || "");
+
+function compressImage(file: File, maxW = 1200, quality = 0.72): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxW / img.width);
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return reject(new Error("no canvas"));
+      ctx.drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL("image/jpeg", quality));
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 function TourEditor({ tour, onClose, onSaved }: { tour: Tour | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({
     titleEs: tour?.titleEs || "",
@@ -373,24 +402,138 @@ function TourEditor({ tour, onClose, onSaved }: { tour: Tour | null; onClose: ()
     meetingPoint: (tour as any)?.meetingPoint || "",
     slug: tour?.slug || "",
   });
+  const [days, setDays] = useState<number[]>(
+    (tour?.availableDays ?? "0,1,2,3,4,5,6").split(",").filter(Boolean).map(Number)
+  );
+  const [blocked, setBlocked] = useState<string[]>(
+    (tour?.blockedDates ?? "").split(",").map((s) => s.trim()).filter(Boolean)
+  );
+  const [newBlock, setNewBlock] = useState("");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const set = (k: string, v: string | number) => setForm((f) => ({ ...f, [k]: v }));
+
+  const toggleDay = (i: number) =>
+    setDays((d) => (d.includes(i) ? d.filter((x) => x !== i) : [...d, i].sort()));
+
+  async function onFile(file?: File) {
+    if (!file) return;
+    setUploading(true);
+    try {
+      const dataUrl = await compressImage(file);
+      set("image", dataUrl);
+    } catch {
+      alert("No se pudo procesar la imagen.");
+    }
+    setUploading(false);
+  }
 
   async function save() {
     setSaving(true);
     const url = tour ? `/api/admin/tours/${tour.id}` : "/api/admin/tours";
     const method = tour ? "PATCH" : "POST";
-    await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+    const body = { ...form, availableDays: days.join(","), blockedDates: blocked.join(",") };
+    await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     setSaving(false);
     onSaved();
   }
 
   const input = "w-full rounded-lg border border-marea-400/20 bg-marea-900/50 px-3 py-2 text-sm text-white outline-none focus:border-marea-400";
+  const photo = isPhoto(form.image);
 
   return (
     <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
       <div onClick={(e) => e.stopPropagation()} className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-marea-400/20 bg-marea-950 p-6">
         <h3 className="font-display text-xl font-bold text-white">{tour ? "Editar tour" : "Nuevo tour"}</h3>
+
+        {/* Photo */}
+        <div className="mt-4 rounded-xl border border-marea-400/15 bg-marea-900/30 p-4">
+          <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-marea-300">Foto del tour</span>
+          <div className="flex items-center gap-4">
+            <div className="h-24 w-36 shrink-0 overflow-hidden rounded-lg border border-marea-400/20 bg-marea-900">
+              {photo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.image} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-xs text-marea-400">Sin foto</div>
+              )}
+            </div>
+            <div className="flex-1 space-y-2">
+              <label className="inline-block cursor-pointer rounded-full bg-marea-500 px-4 py-2 text-xs font-semibold text-white hover:bg-marea-600">
+                {uploading ? "Procesando..." : photo ? "Cambiar foto" : "Subir foto"}
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
+              </label>
+              {photo && (
+                <button
+                  onClick={() => set("image", "graffiti")}
+                  className="ml-2 rounded-full border border-marea-400/30 px-3 py-2 text-xs text-marea-200 hover:bg-marea-800/50"
+                >
+                  Quitar foto
+                </button>
+              )}
+              <p className="text-xs text-marea-400">O pega una URL de imagen:</p>
+              <input
+                className={input}
+                value={form.image.startsWith("http") ? form.image : ""}
+                placeholder="https://…"
+                onChange={(e) => set("image", e.target.value)}
+              />
+              {!photo && (
+                <div>
+                  <span className="mb-1 block text-xs text-marea-400">…o usa una ilustración (tema):</span>
+                  <select className={input} value={form.image} onChange={(e) => set("image", e.target.value)}>
+                    {["graffiti", "english", "sunset", "vip", "food", "workshop"].map((x) => (
+                      <option key={x} value={x}>{x}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Availability */}
+        <div className="mt-4 rounded-xl border border-marea-400/15 bg-marea-900/30 p-4">
+          <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-marea-300">Disponibilidad</span>
+          <p className="mb-2 text-xs text-marea-400">Días de la semana que opera este tour:</p>
+          <div className="flex flex-wrap gap-1.5">
+            {WEEK.map((d) => (
+              <button
+                key={d.i}
+                onClick={() => toggleDay(d.i)}
+                className={`w-11 rounded-lg py-2 text-xs font-semibold transition-colors ${
+                  days.includes(d.i) ? "bg-marea-500 text-white" : "bg-marea-900/60 text-marea-400 hover:text-white"
+                }`}
+              >
+                {d.l}
+              </button>
+            ))}
+          </div>
+          <p className="mb-2 mt-4 text-xs text-marea-400">Fechas bloqueadas (feriados, cupos llenos…):</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <input type="date" value={newBlock} onChange={(e) => setNewBlock(e.target.value)} className={`${input} w-auto`} />
+            <button
+              onClick={() => {
+                if (newBlock && !blocked.includes(newBlock)) setBlocked((b) => [...b, newBlock].sort());
+                setNewBlock("");
+              }}
+              className="rounded-full bg-marea-700 px-3 py-2 text-xs font-medium text-white hover:bg-marea-600"
+            >
+              Bloquear
+            </button>
+          </div>
+          {blocked.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {blocked.map((d) => (
+                <span key={d} className="inline-flex items-center gap-1 rounded-full bg-red-500/15 px-2.5 py-1 text-xs text-red-300">
+                  {d}
+                  <button onClick={() => setBlocked((b) => b.filter((x) => x !== d))} className="hover:text-red-100">✕</button>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <Field label="Título (ES)"><input className={input} value={form.titleEs} onChange={(e) => set("titleEs", e.target.value)} /></Field>
           <Field label="Título (EN)"><input className={input} value={form.titleEn} onChange={(e) => set("titleEn", e.target.value)} /></Field>
@@ -402,13 +545,6 @@ function TourEditor({ tour, onClose, onSaved }: { tour: Tour | null; onClose: ()
           <Field label="Duración (min)"><input type="number" className={input} value={form.durationMin} onChange={(e) => set("durationMin", Number(e.target.value))} /></Field>
           <Field label="Máx. personas"><input type="number" className={input} value={form.maxPeople} onChange={(e) => set("maxPeople", Number(e.target.value))} /></Field>
           <Field label="Categoría"><input className={input} value={form.category} onChange={(e) => set("category", e.target.value)} /></Field>
-          <Field label="Imagen (tema)">
-            <select className={input} value={form.image} onChange={(e) => set("image", e.target.value)}>
-              {["graffiti", "english", "sunset", "vip", "food", "workshop"].map((x) => (
-                <option key={x} value={x}>{x}</option>
-              ))}
-            </select>
-          </Field>
           <Field label="Punto de encuentro" full><input className={input} value={form.meetingPoint} onChange={(e) => set("meetingPoint", e.target.value)} /></Field>
           {!tour && <Field label="Slug (URL)"><input className={input} value={form.slug} onChange={(e) => set("slug", e.target.value)} placeholder="mi-tour" /></Field>}
         </div>

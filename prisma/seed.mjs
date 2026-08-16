@@ -20,7 +20,7 @@ const tours = [
     summaryEn:"Experience the neighborhood in a different light: viewpoints, live music and sunset over Medellín.",
     descriptionEs:"Un recorrido especial al final del día cuando la Comuna 13 se llena de música, baile y las mejores vistas del atardecer. Incluye mirador panorámico y show de breakdance local.",
     descriptionEn:"A special late-day walk when Comuna 13 fills with music, dance and the best sunset views. Includes a panoramic viewpoint and a local breakdance show.",
-    price:60000, durationMin:210, category:"experiencia", meetingPoint:"Estación San Javier (Metro), salida principal", image:"sunset", maxPeople:12, featured:true, order:3 },
+    price:60000, durationMin:210, category:"experiencia", meetingPoint:"Estación San Javier (Metro), salida principal", image:"sunset", maxPeople:12, featured:true, order:3, availableDays:"0,3,4,5,6" },
   { slug:"tour-privado-vip", titleEs:"Tour Privado VIP", titleEn:"Private VIP Tour",
     summaryEs:"Experiencia exclusiva y personalizada para tu grupo, con transporte incluido.",
     summaryEn:"Exclusive, personalized experience for your group, transport included.",
@@ -38,7 +38,7 @@ const tours = [
     summaryEn:"Learn to make your own graffiti with a local Comuna 13 artist.",
     descriptionEs:"Después del recorrido, ponte los guantes y crea tu propia obra con spray guiado por un grafitero del barrio. Te llevas tu lienzo a casa. Materiales incluidos.",
     descriptionEn:"After the tour, put on the gloves and create your own spray artwork guided by a neighborhood graffiti artist. Take your canvas home. Materials included.",
-    price:90000, durationMin:150, category:"experiencia", meetingPoint:"Estación San Javier (Metro), salida principal", image:"workshop", maxPeople:8, featured:false, order:6 },
+    price:90000, durationMin:150, category:"experiencia", meetingPoint:"Estación San Javier (Metro), salida principal", image:"workshop", maxPeople:8, featured:false, order:6, availableDays:"0,6" },
 ];
 
 async function main() {
