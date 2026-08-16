@@ -71,7 +71,7 @@ export function Navbar() {
           </div>
           <a
             href="#book"
-            className="btn-glow hidden rounded-full bg-gradient-to-r from-marea-500 to-marea-700 px-5 py-2 text-sm font-semibold text-white sm:block"
+            className="btn-glow hidden rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-5 py-2 text-sm font-semibold text-white sm:block"
           >
             {t.nav.book}
           </a>

@@ -71,7 +71,7 @@ export function Hero({ whatsappNumber }: { whatsappNumber: string }) {
           >
             <a
               href="#book"
-              className="btn-glow rounded-full bg-gradient-to-r from-marea-400 to-marea-700 px-7 py-3.5 font-semibold text-white"
+              className="btn-glow rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-7 py-3.5 font-semibold text-white"
             >
               {t.hero.ctaBook}
             </a>

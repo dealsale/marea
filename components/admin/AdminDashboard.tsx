@@ -217,7 +217,7 @@ function PackagesTab({ packages, lines, reload }: { packages: Pkg[]; lines: Line
   return (
     <div className="mt-6">
       <div className="mb-4 flex justify-end">
-        <button onClick={() => setCreating(true)} disabled={lines.length === 0} className="btn-glow rounded-full bg-gradient-to-r from-marea-400 to-marea-700 px-5 py-2 text-sm font-semibold text-white disabled:opacity-50">+ Nuevo paquete</button>
+        <button onClick={() => setCreating(true)} disabled={lines.length === 0} className="btn-glow rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-5 py-2 text-sm font-semibold text-white disabled:opacity-50">+ Nuevo paquete</button>
       </div>
       {lines.length === 0 && <p className="text-sm text-marea-400">Crea una línea primero en la pestaña «Líneas».</p>}
       <div className="space-y-6">
@@ -376,7 +376,7 @@ function PackageEditor({ pkg, lines, onClose, onSaved }: { pkg: Pkg | null; line
 
         <div className="mt-6 flex justify-end gap-3">
           <button onClick={onClose} className="rounded-full border border-marea-400/30 px-5 py-2 text-sm text-marea-200 hover:bg-marea-800/50">Cancelar</button>
-          <button onClick={save} disabled={saving} className="btn-glow rounded-full bg-gradient-to-r from-marea-400 to-marea-700 px-6 py-2 text-sm font-semibold text-white disabled:opacity-60">{saving ? "Guardando..." : "Guardar"}</button>
+          <button onClick={save} disabled={saving} className="btn-glow rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-6 py-2 text-sm font-semibold text-white disabled:opacity-60">{saving ? "Guardando..." : "Guardar"}</button>
         </div>
       </div>
     </div>
@@ -391,7 +391,7 @@ function LinesTab({ lines, reload }: { lines: Line[]; reload: () => void }) {
 
   return (
     <div className="mt-6">
-      <div className="mb-4 flex justify-end"><button onClick={() => setCreating(true)} className="btn-glow rounded-full bg-gradient-to-r from-marea-400 to-marea-700 px-5 py-2 text-sm font-semibold text-white">+ Nueva línea</button></div>
+      <div className="mb-4 flex justify-end"><button onClick={() => setCreating(true)} className="btn-glow rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-5 py-2 text-sm font-semibold text-white">+ Nueva línea</button></div>
       <div className="grid gap-3">
         {lines.map((l) => (
           <div key={l.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-marea-400/15 bg-marea-900/40 p-4">
@@ -418,7 +418,7 @@ function LinesTab({ lines, reload }: { lines: Line[]; reload: () => void }) {
 function LineEditor({ line, onClose, onSaved }: { line: Line | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({
     nameEs: line?.nameEs || "", nameEn: line?.nameEn || "", taglineEs: line?.taglineEs || "", taglineEn: line?.taglineEn || "",
-    emoji: line?.emoji || "🌊", color: line?.color || "#db2777", order: line?.order ?? 0, slug: line?.slug || "",
+    emoji: line?.emoji || "🌊", color: line?.color || "#2247cf", order: line?.order ?? 0, slug: line?.slug || "",
   });
   const [saving, setSaving] = useState(false);
   const set = (k: string, v: any) => setForm((f) => ({ ...f, [k]: v }));
@@ -444,7 +444,7 @@ function LineEditor({ line, onClose, onSaved }: { line: Line | null; onClose: ()
         </div>
         <div className="mt-6 flex justify-end gap-3">
           <button onClick={onClose} className="rounded-full border border-marea-400/30 px-5 py-2 text-sm text-marea-200 hover:bg-marea-800/50">Cancelar</button>
-          <button onClick={save} disabled={saving} className="btn-glow rounded-full bg-gradient-to-r from-marea-400 to-marea-700 px-6 py-2 text-sm font-semibold text-white disabled:opacity-60">{saving ? "Guardando..." : "Guardar"}</button>
+          <button onClick={save} disabled={saving} className="btn-glow rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-6 py-2 text-sm font-semibold text-white disabled:opacity-60">{saving ? "Guardando..." : "Guardar"}</button>
         </div>
       </div>
     </div>

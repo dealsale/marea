@@ -9,7 +9,7 @@ export default function Offline() {
       <p className="max-w-sm text-marea-300">
         Parece que no tienes internet. Vuelve a intentarlo cuando recuperes la conexión.
       </p>
-      <a href="/" className="mt-2 rounded-full bg-gradient-to-r from-marea-400 to-marea-700 px-6 py-2.5 font-semibold text-white">
+      <a href="/" className="mt-2 rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-6 py-2.5 font-semibold text-white">
         Reintentar
       </a>
     </div>

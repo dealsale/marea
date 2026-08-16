@@ -70,7 +70,7 @@ export function AdminLogin() {
         <button
           type="submit"
           disabled={loading}
-          className="btn-glow mt-6 w-full rounded-full bg-gradient-to-r from-marea-400 to-marea-700 py-3 font-semibold text-white disabled:opacity-60"
+          className="btn-glow mt-6 w-full rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 py-3 font-semibold text-white disabled:opacity-60"
         >
           {loading ? "Ingresando..." : "Ingresar"}
         </button>

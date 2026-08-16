@@ -347,7 +347,7 @@ export function BookingSection({
                       <span className="font-bold text-white">{t.shop.total}: {money(total)}</span>
                     </div>
                     {error && <p className="mb-3 text-sm text-red-400">{error}</p>}
-                    <button type="submit" disabled={status === "loading"} className="btn-glow flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-marea-400 to-marea-700 py-3.5 font-semibold text-white disabled:opacity-60">
+                    <button type="submit" disabled={status === "loading"} className="btn-glow flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 py-3.5 font-semibold text-white disabled:opacity-60">
                       <WhatsAppIcon className="h-5 w-5" />
                       {status === "loading" ? t.booking.submitting : t.booking.submit}
                     </button>

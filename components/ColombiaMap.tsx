@@ -37,7 +37,7 @@ export function ColombiaMap() {
 
       <svg
         viewBox={CO_VIEWBOX}
-        className="relative h-auto w-full drop-shadow-[0_10px_40px_rgba(219,39,119,0.45)]"
+        className="relative h-auto w-full drop-shadow-[0_10px_40px_rgba(53,99,232,0.45)]"
         role="img"
         aria-label={lang === "es" ? "Mapa interactivo de Colombia" : "Interactive map of Colombia"}
       >
@@ -54,12 +54,12 @@ export function ColombiaMap() {
                 setActive((a) => (a === d.id ? null : d.id));
               }}
               style={{
-                fill: on ? "#fbcfe8" : "#7a1540",
-                stroke: on ? "#f9a8d4" : "#f472b6",
+                fill: on ? "#bcd0ff" : "#16307a",
+                stroke: on ? "#8fb0ff" : "#5b86fb",
                 strokeWidth: on ? 1.4 : 0.7,
                 cursor: "pointer",
                 transition: "fill .18s, stroke .18s",
-                filter: on ? "drop-shadow(0 0 6px rgba(251,207,232,.9))" : "none",
+                filter: on ? "drop-shadow(0 0 6px rgba(188,208,255,.9))" : "none",
               }}
             >
               <title>{d.name}</title>

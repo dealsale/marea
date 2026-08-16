@@ -67,7 +67,7 @@ export function PackageCard({
           <div className="mt-5 flex gap-2">
             <button
               onClick={() => onBook(pkg.id)}
-              className="btn-glow flex-1 rounded-full bg-gradient-to-r from-marea-500 to-marea-700 py-2.5 text-sm font-semibold text-white"
+              className="btn-glow flex-1 rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 py-2.5 text-sm font-semibold text-white"
             >
               {t.shop.book}
             </button>
@@ -171,7 +171,7 @@ export function PackageModal({
 
               <button
                 onClick={() => onBookPackage(pkg.id)}
-                className="btn-glow mt-6 w-full rounded-full bg-gradient-to-r from-marea-400 to-marea-700 py-3 font-semibold text-white"
+                className="btn-glow mt-6 w-full rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 py-3 font-semibold text-white"
               >
                 {t.shop.bookPackage}
               </button>
