@@ -1,17 +1,16 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { isAuthenticated } from "@/lib/auth";
+import { getCustomerId } from "@/lib/customerAuth";
 
 export async function GET() {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const id = getCustomerId();
+  if (!id) return NextResponse.json({ error: "No autenticado" }, { status: 401 });
   const bookings = await prisma.booking.findMany({
+    where: { customerId: id },
     orderBy: { createdAt: "desc" },
     include: {
-      package: { select: { titleEs: true, titleEn: true, type: true, line: { select: { nameEs: true } } } },
+      package: { select: { titleEs: true, titleEn: true, type: true, line: { select: { nameEs: true, nameEn: true } } } },
       activity: { select: { nameEs: true, nameEn: true } },
-      customer: { select: { name: true, email: true } },
     },
   });
   return NextResponse.json({ bookings });

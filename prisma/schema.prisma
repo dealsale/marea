@@ -70,12 +70,24 @@ model Activity {
   bookings      Booking[]
 }
 
+model Customer {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  phone        String    @default("")
+  createdAt    DateTime  @default(now())
+  bookings     Booking[]
+}
+
 model Booking {
   id         String    @id @default(cuid())
   package    Package?  @relation(fields: [packageId], references: [id], onDelete: SetNull)
   packageId  String?
   activity   Activity? @relation(fields: [activityId], references: [id], onDelete: SetNull)
   activityId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  customerId String?
   name       String
   email      String
   phone      String
@@ -89,5 +101,7 @@ model Booking {
   notes      String    @default("")
   status     String    @default("pending") // pending | confirmed | cancelled
   total      Int       @default(0)
+  changeRequest String @default("")        // "" | reschedule | cancel (customer request)
+  requestNote   String @default("")        // customer's note for the request
   createdAt  DateTime  @default(now())
 }

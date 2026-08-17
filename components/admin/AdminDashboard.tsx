@@ -16,8 +16,15 @@ type Pkg = {
 type Booking = {
   id: string; name: string; email: string; phone: string; language: string; date: string; endDate: string | null; timeSlot: string;
   nights: number; people: number; extras: string; notes: string; status: string; total: number; createdAt: string;
+  changeRequest: string; requestNote: string;
   package: { titleEs: string; type: string; line: { nameEs: string } } | null;
   activity: { nameEs: string; nameEn: string } | null;
+  customer: { name: string; email: string } | null;
+};
+type CustomerRow = {
+  id: string; name: string; email: string; phone: string; createdAt: string;
+  _count: { bookings: number };
+  bookings: { id: string; date: string; endDate: string | null; nights: number; people: number; status: string; total: number; changeRequest: string; package: { titleEs: string; type: string } | null; activity: { nameEs: string } | null }[];
 };
 
 const statusStyles: Record<string, string> = {
@@ -44,22 +51,29 @@ function compressImage(file: File, maxW = 1200, quality = 0.72): Promise<string>
 }
 
 export function AdminDashboard() {
-  const [tab, setTab] = useState<"bookings" | "packages" | "lines">("bookings");
+  const [tab, setTab] = useState<"bookings" | "packages" | "lines" | "customers">("bookings");
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [packages, setPackages] = useState<Pkg[]>([]);
   const [lines, setLines] = useState<Line[]>([]);
+  const [customers, setCustomers] = useState<CustomerRow[]>([]);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
 
   async function load() {
     setLoading(true);
-    const [b, p, l] = await Promise.all([
+    const [b, p, l, c] = await Promise.all([
       fetch("/api/admin/bookings").then((r) => r.json()),
       fetch("/api/admin/packages").then((r) => r.json()),
       fetch("/api/admin/lines").then((r) => r.json()),
+      fetch("/api/admin/customers").then((r) => r.json()),
     ]);
-    setBookings(b.bookings || []); setPackages(p.packages || []); setLines(l.lines || []);
+    setBookings(b.bookings || []); setPackages(p.packages || []); setLines(l.lines || []); setCustomers(c.customers || []);
     setLoading(false);
+  }
+
+  async function clearRequest(id: string) {
+    setBookings((bs) => bs.map((b) => (b.id === id ? { ...b, changeRequest: "", requestNote: "" } : b)));
+    await fetch(`/api/admin/bookings/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ clearRequest: true }) });
   }
   useEffect(() => { load(); }, []);
 
@@ -118,30 +132,36 @@ export function AdminDashboard() {
         </div>
 
         <div className="mt-8 flex gap-2 border-b border-marea-400/15">
-          {[{ k: "bookings", l: "Reservas" }, { k: "packages", l: "Paquetes" }, { k: "lines", l: "Líneas" }].map((x) => (
-            <button key={x.k} onClick={() => setTab(x.k as any)}
-              className={`-mb-px border-b-2 px-4 py-2.5 text-sm font-semibold transition-colors ${tab === x.k ? "border-marea-400 text-marea-50" : "border-transparent text-marea-400 hover:text-marea-200"}`}>
-              {x.l}
-            </button>
-          ))}
+          {[{ k: "bookings", l: "Reservas" }, { k: "packages", l: "Paquetes" }, { k: "lines", l: "Líneas" }, { k: "customers", l: "Clientes" }].map((x) => {
+            const pend = x.k === "bookings" ? bookings.filter((b) => b.changeRequest).length : 0;
+            return (
+              <button key={x.k} onClick={() => setTab(x.k as any)}
+                className={`-mb-px flex items-center gap-1.5 border-b-2 px-4 py-2.5 text-sm font-semibold transition-colors ${tab === x.k ? "border-marea-400 text-marea-50" : "border-transparent text-marea-400 hover:text-marea-200"}`}>
+                {x.l}
+                {pend > 0 && <span className="rounded-full bg-amber-500 px-1.5 text-[10px] font-bold text-marea-950">{pend}</span>}
+              </button>
+            );
+          })}
           <button onClick={load} className="ml-auto px-3 py-2 text-sm text-marea-400 hover:text-marea-50">⟳ Actualizar</button>
         </div>
 
         {loading ? (
           <div className="py-20 text-center text-marea-400">Cargando...</div>
         ) : tab === "bookings" ? (
-          <BookingsTab bookings={shown} filter={filter} setFilter={setFilter} setStatus={setStatus} deleteBooking={deleteBooking} />
+          <BookingsTab bookings={shown} filter={filter} setFilter={setFilter} setStatus={setStatus} deleteBooking={deleteBooking} clearRequest={clearRequest} />
         ) : tab === "packages" ? (
           <PackagesTab packages={packages} lines={lines} reload={load} />
-        ) : (
+        ) : tab === "lines" ? (
           <LinesTab lines={lines} reload={load} />
+        ) : (
+          <CustomersTab customers={customers} />
         )}
       </main>
     </div>
   );
 }
 
-function BookingsTab({ bookings, filter, setFilter, setStatus, deleteBooking }: { bookings: Booking[]; filter: string; setFilter: (f: string) => void; setStatus: (id: string, s: string) => void; deleteBooking: (id: string) => void }) {
+function BookingsTab({ bookings, filter, setFilter, setStatus, deleteBooking, clearRequest }: { bookings: Booking[]; filter: string; setFilter: (f: string) => void; setStatus: (id: string, s: string) => void; deleteBooking: (id: string) => void; clearRequest: (id: string) => void }) {
   return (
     <div className="mt-6">
       <div className="mb-4 flex flex-wrap gap-2">
@@ -167,6 +187,12 @@ function BookingsTab({ bookings, filter, setFilter, setStatus, deleteBooking }: 
                       <span className="font-semibold text-marea-50">{b.name}</span>
                       <span className={`rounded-full border px-2 py-0.5 text-xs capitalize ${statusStyles[b.status]}`}>{b.status}</span>
                       <span className="rounded-full bg-marea-800 px-2 py-0.5 text-xs uppercase text-marea-200">{b.language}</span>
+                      {b.customer && <span className="rounded-full bg-marea-700/40 px-2 py-0.5 text-xs text-marea-100">👤 cuenta</span>}
+                      {b.changeRequest && (
+                        <span className="rounded-full border border-amber-500/40 bg-amber-500/20 px-2 py-0.5 text-xs font-semibold text-amber-300">
+                          ⏳ Pide {b.changeRequest === "cancel" ? "cancelar" : "reprogramar"}
+                        </span>
+                      )}
                     </div>
                     <div className="mt-1 text-sm text-marea-300">
                       {b.package?.line?.nameEs ? <span className="text-marea-400">{b.package.line.nameEs} · </span> : null}
@@ -182,6 +208,15 @@ function BookingsTab({ bookings, filter, setFilter, setStatus, deleteBooking }: 
                       <span className="text-marea-500">#{b.id.slice(-6).toUpperCase()}</span>
                     </div>
                     {b.notes && <div className="mt-2 rounded-lg bg-marea-950/60 px-3 py-2 text-xs text-marea-300">📝 {b.notes}</div>}
+                    {b.changeRequest && (
+                      <div className="mt-2 flex flex-wrap items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-200">
+                        <span>Solicitud del cliente: <b>{b.changeRequest === "cancel" ? "cancelar" : "reprogramar"}</b>{b.requestNote ? ` — “${b.requestNote}”` : ""}</span>
+                        {b.changeRequest === "cancel" && (
+                          <button onClick={() => { setStatus(b.id, "cancelled"); clearRequest(b.id); }} className="rounded-full bg-red-500 px-2.5 py-1 font-medium text-white hover:bg-red-600">Cancelar reserva</button>
+                        )}
+                        <button onClick={() => clearRequest(b.id)} className="rounded-full bg-marea-800 px-2.5 py-1 font-medium text-marea-100 hover:bg-marea-700">Marcar resuelto</button>
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
                     <a href={whatsappUrl(b.phone, `Hola ${b.name}, te escribimos de Marea Tours sobre tu reserva del ${b.date}.`)} target="_blank" rel="noopener noreferrer" className="rounded-full bg-green-500/20 px-3 py-1.5 text-xs font-medium text-green-300 hover:bg-green-500/30">WhatsApp</a>
@@ -447,6 +482,60 @@ function LineEditor({ line, onClose, onSaved }: { line: Line | null; onClose: ()
           <button onClick={save} disabled={saving} className="btn-glow rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-6 py-2 text-sm font-semibold text-white disabled:opacity-60">{saving ? "Guardando..." : "Guardar"}</button>
         </div>
       </div>
+    </div>
+  );
+}
+
+function CustomersTab({ customers }: { customers: CustomerRow[] }) {
+  const [open, setOpen] = useState<string | null>(null);
+  return (
+    <div className="mt-6">
+      {customers.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-marea-400/20 py-16 text-center text-marea-400">Aún no hay clientes registrados.</div>
+      ) : (
+        <div className="grid gap-3">
+          {customers.map((c) => (
+            <div key={c.id} className="rounded-2xl border border-marea-400/15 bg-marea-900/40 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-marea-400 to-marea-700 text-sm font-bold text-white">{c.name.charAt(0).toUpperCase()}</span>
+                    <span className="font-semibold text-marea-50">{c.name}</span>
+                  </div>
+                  <div className="mt-1 flex flex-wrap gap-x-4 text-xs text-marea-400">
+                    <span>✉️ {c.email}</span>
+                    {c.phone && <span>📞 {c.phone}</span>}
+                    <span>🎫 {c._count.bookings} reservas</span>
+                    <span>🗓️ {new Date(c.createdAt).toLocaleDateString("es-CO")}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {c.phone && <a href={whatsappUrl(c.phone, `Hola ${c.name}, te escribimos de Marea Tours.`)} target="_blank" rel="noopener noreferrer" className="rounded-full bg-green-500/20 px-3 py-1.5 text-xs font-medium text-green-300 hover:bg-green-500/30">WhatsApp</a>}
+                  {c.bookings.length > 0 && (
+                    <button onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-full bg-marea-800 px-3 py-1.5 text-xs text-marea-100 hover:bg-marea-700">
+                      {open === c.id ? "Ocultar" : "Ver reservas"}
+                    </button>
+                  )}
+                </div>
+              </div>
+              {open === c.id && (
+                <div className="mt-3 space-y-1.5 border-t border-marea-400/10 pt-3">
+                  {c.bookings.map((b) => (
+                    <div key={b.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-marea-300">
+                      <span className={`rounded-full px-2 py-0.5 ${statusStyles[b.status]}`}>{b.status}</span>
+                      <span className="text-marea-100">{b.package?.titleEs || b.activity?.nameEs || "—"}</span>
+                      <span>📅 {b.date}{b.endDate ? ` → ${b.endDate}` : ""}</span>
+                      <span>👥 {b.people}</span>
+                      <span>💵 {b.total === 0 ? "Gratis" : formatPrice(b.total, "COP", "es")}</span>
+                      {b.changeRequest && <span className="text-amber-300">⏳ pide {b.changeRequest === "cancel" ? "cancelar" : "reprogramar"}</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

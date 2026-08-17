@@ -67,6 +67,16 @@ export function Navbar() {
               </button>
             ))}
           </div>
+          <a
+            href="/cuenta"
+            aria-label={lang === "es" ? "Mi cuenta" : "My account"}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-marea-400/30 text-marea-100 transition-colors hover:bg-marea-800/50"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+            </svg>
+          </a>
           <ThemeToggle />
           <div className="hidden lg:block">
             <InstallButton variant="nav" />

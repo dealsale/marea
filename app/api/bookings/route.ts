@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { whatsappUrl, formatPrice } from "@/lib/format";
 import { TYPE_LABELS } from "@/lib/types";
+import { getCustomerId } from "@/lib/customerAuth";
 
 const schema = z.object({
   packageId: z.string().optional(),
@@ -76,10 +77,13 @@ export async function POST(req: Request) {
       }
     }
 
+    const customerId = getCustomerId();
+
     const booking = await prisma.booking.create({
       data: {
         packageId: d.packageId || null,
         activityId: d.activityId || null,
+        customerId: customerId || null,
         name: d.name,
         email: d.email,
         phone: d.phone,
