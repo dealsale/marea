@@ -41,17 +41,17 @@ export function Footer({ whatsappNumber }: { whatsappNumber: string }) {
         </div>
 
         <div>
-          <h4 className="font-semibold text-white">{t.footer.links}</h4>
+          <h4 className="font-semibold text-marea-50">{t.footer.links}</h4>
           <ul className="mt-4 space-y-2 text-sm text-marea-300">
-            <li><a href="#tours" className="hover:text-white">{t.nav.tours}</a></li>
-            <li><a href="#about" className="hover:text-white">{t.nav.about}</a></li>
-            <li><a href="#reviews" className="hover:text-white">{t.nav.reviews}</a></li>
-            <li><a href="#book" className="hover:text-white">{t.nav.book}</a></li>
+            <li><a href="#tours" className="hover:text-marea-50">{t.nav.tours}</a></li>
+            <li><a href="#about" className="hover:text-marea-50">{t.nav.about}</a></li>
+            <li><a href="#reviews" className="hover:text-marea-50">{t.nav.reviews}</a></li>
+            <li><a href="#book" className="hover:text-marea-50">{t.nav.book}</a></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="font-semibold text-white">{t.footer.contact}</h4>
+          <h4 className="font-semibold text-marea-50">{t.footer.contact}</h4>
           <ul className="mt-4 space-y-2 text-sm text-marea-300">
             <li>📍 Comuna 13, Medellín</li>
             <li>🕘 9:00 - 18:00</li>
@@ -61,7 +61,7 @@ export function Footer({ whatsappNumber }: { whatsappNumber: string }) {
                 href={whatsappUrl(whatsappNumber, t.whatsapp.prefill)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white"
+                className="hover:text-marea-50"
               >
                 WhatsApp
               </a>

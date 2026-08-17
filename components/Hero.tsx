@@ -79,7 +79,7 @@ export function Hero({ whatsappNumber }: { whatsappNumber: string }) {
               href={whatsappUrl(whatsappNumber, t.whatsapp.prefill)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-full border border-marea-400/40 bg-marea-900/30 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-marea-800/50"
+              className="flex items-center gap-2 rounded-full border border-marea-400/40 bg-marea-900/30 px-7 py-3.5 font-semibold text-marea-50 transition-colors hover:bg-marea-800/50"
             >
               <WhatsAppIcon className="h-5 w-5" />
               {t.hero.ctaWhatsapp}
@@ -94,7 +94,7 @@ export function Hero({ whatsappNumber }: { whatsappNumber: string }) {
           >
             {stats.map((s) => (
               <div key={s.key}>
-                <div className="font-display text-2xl font-bold text-white sm:text-3xl">{s.value}</div>
+                <div className="font-display text-2xl font-bold text-marea-50 sm:text-3xl">{s.value}</div>
                 <div className="mt-1 text-xs text-marea-300">{t.hero[s.key]}</div>
               </div>
             ))}

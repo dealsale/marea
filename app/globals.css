@@ -2,38 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Índigo palette, light default; dark via system or .dark class ===== */
 :root {
-  --marea-glow: 53, 99, 232;
+  --m50: 26 23 75;
+  --m100: 37 32 92;
+  --m200: 60 54 122;
+  --m300: 86 80 143;
+  --m400: 130 124 190;
+  --m500: 99 102 241;
+  --m600: 79 70 229;
+  --m700: 67 56 202;
+  --m800: 224 223 247;
+  --m900: 210 210 244;
+  --m950: 245 244 255;
+  --marea-glow: 99, 102, 241;
 }
 
-html {
-  scroll-behavior: smooth;
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --m50: 238 236 255;
+    --m100: 231 229 251;
+    --m200: 213 209 245;
+    --m300: 180 174 237;
+    --m400: 129 140 248;
+    --m500: 99 102 241;
+    --m600: 79 70 229;
+    --m700: 55 48 163;
+    --m800: 38 32 102;
+    --m900: 28 24 80;
+    --m950: 18 15 51;
+  }
 }
+
+:root.dark {
+  --m50: 238 236 255;
+  --m100: 231 229 251;
+  --m200: 213 209 245;
+  --m300: 180 174 237;
+  --m400: 129 140 248;
+  --m500: 99 102 241;
+  --m600: 79 70 229;
+  --m700: 55 48 163;
+  --m800: 38 32 102;
+  --m900: 28 24 80;
+  --m950: 18 15 51;
+}
+
+html { scroll-behavior: smooth; }
 
 body {
   @apply bg-marea-950 text-marea-50 antialiased;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-::selection {
-  background: rgba(53, 99, 232, 0.4);
-}
+::selection { background: rgba(99, 102, 241, 0.35); }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #0b1740; }
-::-webkit-scrollbar-thumb { background: #2247cf; border-radius: 5px; }
-::-webkit-scrollbar-thumb:hover { background: #3563e8; }
+::-webkit-scrollbar-track { background: rgb(var(--m900)); }
+::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #818cf8; }
 
 .glass {
-  background: rgba(11, 23, 64, 0.55);
+  background: rgb(var(--m900) / 0.55);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(91, 134, 251, 0.18);
+  border: 1px solid rgb(var(--m400) / 0.2);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #8fb0ff 0%, #3563e8 50%, #5b86fb 100%);
+  background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #818cf8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -41,26 +79,24 @@ body {
 
 .gradient-border {
   position: relative;
-  background: linear-gradient(135deg, rgba(34,71,207,0.15), rgba(11,23,64,0.15));
+  background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(99,102,241,0.15));
 }
 
 .aurora {
   background:
-    radial-gradient(60% 60% at 20% 20%, rgba(53, 99, 232, 0.35) 0%, transparent 60%),
-    radial-gradient(50% 50% at 80% 10%, rgba(91, 134, 251, 0.22) 0%, transparent 55%),
-    radial-gradient(60% 60% at 70% 80%, rgba(19, 36, 94, 0.5) 0%, transparent 60%);
+    radial-gradient(60% 60% at 20% 20%, rgba(99, 102, 241, 0.35) 0%, transparent 60%),
+    radial-gradient(50% 50% at 80% 10%, rgba(217, 70, 239, 0.22) 0%, transparent 55%),
+    radial-gradient(60% 60% at 70% 80%, rgba(79, 70, 229, 0.4) 0%, transparent 60%);
 }
 
-/* Buttons use the magenta accent, so their glow is magenta */
+/* Buttons use the fuchsia accent, so their glow is fuchsia */
 .btn-glow {
-  box-shadow: 0 0 0 rgba(236, 72, 153, 0);
+  box-shadow: 0 0 0 rgba(217, 70, 239, 0);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 .btn-glow:hover {
-  box-shadow: 0 8px 40px rgba(236, 72, 153, 0.5);
+  box-shadow: 0 8px 40px rgba(217, 70, 239, 0.5);
   transform: translateY(-2px);
 }
 
-input, select, textarea {
-  color-scheme: dark;
-}
+input, select, textarea { color-scheme: light dark; }

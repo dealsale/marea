@@ -53,7 +53,7 @@ export function PackageCard({
           </span>
         </div>
         <div className="flex flex-1 flex-col p-5">
-          <h3 className="font-display text-xl font-semibold text-white">{title}</h3>
+          <h3 className="font-display text-xl font-semibold text-marea-50">{title}</h3>
           <p className="mt-2 flex-1 text-sm text-marea-300">{summary}</p>
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-marea-400">
             {pkg.type === "hospedaje" ? (
@@ -122,7 +122,7 @@ export function PackageModal({
             </div>
             <div className="p-6">
               <div className="flex items-start justify-between gap-3">
-                <h3 className="font-display text-2xl font-bold text-white">{lang === "es" ? pkg.titleEs : pkg.titleEn}</h3>
+                <h3 className="font-display text-2xl font-bold text-marea-50">{lang === "es" ? pkg.titleEs : pkg.titleEn}</h3>
                 <span className={`shrink-0 rounded-full px-3 py-1 text-sm font-bold ${pkg.price === 0 ? "bg-green-500 text-white" : "bg-marea-700 text-white"}`}>
                   {priceLabel(pkg, lang, t)}
                 </span>

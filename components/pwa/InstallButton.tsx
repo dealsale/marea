@@ -50,7 +50,7 @@ export function InstallButton({ variant = "nav" }: { variant?: "nav" | "floating
   const btnClass =
     variant === "floating"
       ? "flex items-center gap-2 rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 px-5 py-3 text-sm font-semibold text-white shadow-xl shadow-marea-700/40"
-      : "flex items-center gap-2 rounded-full border border-marea-400/40 bg-marea-900/40 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-marea-800/60";
+      : "flex items-center gap-2 rounded-full border border-marea-400/40 bg-marea-900/40 px-4 py-2 text-sm font-semibold text-marea-50 transition-colors hover:bg-marea-800/60";
 
   return (
     <>
@@ -71,9 +71,9 @@ export function InstallButton({ variant = "nav" }: { variant?: "nav" | "floating
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-sm rounded-2xl border border-marea-400/20 bg-marea-950 p-6 text-center"
             >
-              <h3 className="font-display text-xl font-bold text-white">{t.title}</h3>
+              <h3 className="font-display text-xl font-bold text-marea-50">{t.title}</h3>
               <p className="mt-3 text-sm text-marea-200">
-                {t.ios} <b className="text-white">“{t.share}” ⬆️</b> {t.then} <b className="text-white">“{t.add}” ➕</b>
+                {t.ios} <b className="text-marea-50">“{t.share}” ⬆️</b> {t.then} <b className="text-marea-50">“{t.add}” ➕</b>
               </p>
               <button onClick={() => setIosHelp(false)} className="btn-glow mt-5 w-full rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 py-2.5 text-sm font-semibold text-white">
                 {t.close}

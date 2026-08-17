@@ -23,7 +23,7 @@ export function FAQ() {
                 onClick={() => setOpen(open === i ? null : i)}
                 className="flex w-full items-center justify-between gap-4 p-5 text-left"
               >
-                <span className="font-semibold text-white">{item.q}</span>
+                <span className="font-semibold text-marea-50">{item.q}</span>
                 <motion.span animate={{ rotate: open === i ? 45 : 0 }} className="text-2xl text-marea-300">
                   +
                 </motion.span>

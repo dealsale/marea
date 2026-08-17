@@ -5,29 +5,30 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        // Base theme: royal blue (light → mid) fading into navy "raven" at the dark end
+        // Base theme (Índigo) driven by CSS variables so it can flip light/dark.
         marea: {
-          50: "#eef4ff",
-          100: "#dae4ff",
-          200: "#bcd0ff",
-          300: "#8fb0ff",
-          400: "#5b86fb",
-          500: "#3563e8",
-          600: "#2247cf",
-          700: "#1b39a6",
-          800: "#13245e",
-          900: "#0b1740",
-          950: "#060c22",
+          50: "rgb(var(--m50) / <alpha-value>)",
+          100: "rgb(var(--m100) / <alpha-value>)",
+          200: "rgb(var(--m200) / <alpha-value>)",
+          300: "rgb(var(--m300) / <alpha-value>)",
+          400: "rgb(var(--m400) / <alpha-value>)",
+          500: "rgb(var(--m500) / <alpha-value>)",
+          600: "rgb(var(--m600) / <alpha-value>)",
+          700: "rgb(var(--m700) / <alpha-value>)",
+          800: "rgb(var(--m800) / <alpha-value>)",
+          900: "rgb(var(--m900) / <alpha-value>)",
+          950: "rgb(var(--m950) / <alpha-value>)",
         },
-        // Accent reserved for buttons / CTAs
+        // Accent reserved for buttons / CTAs (Fucsia)
         magenta: {
-          400: "#f472b6",
-          500: "#ec4899",
-          600: "#db2777",
-          700: "#be185d",
+          400: "#e879f9",
+          500: "#d946ef",
+          600: "#c026d3",
+          700: "#a21caf",
         },
       },
       fontFamily: {

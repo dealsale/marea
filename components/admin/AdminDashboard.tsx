@@ -27,7 +27,7 @@ const statusStyles: Record<string, string> = {
 };
 const WEEK = [{ i: 1, l: "Lun" }, { i: 2, l: "Mar" }, { i: 3, l: "Mié" }, { i: 4, l: "Jue" }, { i: 5, l: "Vie" }, { i: 6, l: "Sáb" }, { i: 0, l: "Dom" }];
 const isPhoto = (s: string) => /^(https?:\/\/|data:image\/)/.test(s || "");
-const input = "w-full rounded-lg border border-marea-400/20 bg-marea-900/50 px-3 py-2 text-sm text-white outline-none focus:border-marea-400";
+const input = "w-full rounded-lg border border-marea-400/20 bg-marea-900/50 px-3 py-2 text-sm text-marea-50 outline-none focus:border-marea-400";
 
 function compressImage(file: File, maxW = 1200, quality = 0.72): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -93,18 +93,18 @@ export function AdminDashboard() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3">
           <Logo />
           <div className="flex items-center gap-3">
-            <a href="/" className="text-sm text-marea-300 hover:text-white">Ver sitio ↗</a>
+            <a href="/" className="text-sm text-marea-300 hover:text-marea-50">Ver sitio ↗</a>
             <button onClick={logout} className="rounded-full border border-marea-400/30 px-4 py-1.5 text-sm text-marea-100 hover:bg-marea-800/50">Salir</button>
           </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-7xl px-5 py-8">
-        <h1 className="font-display text-3xl font-bold text-white">Panel de administración</h1>
+        <h1 className="font-display text-3xl font-bold text-marea-50">Panel de administración</h1>
 
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {[
-            { l: "Reservas", v: stats.total, c: "text-white" },
+            { l: "Reservas", v: stats.total, c: "text-marea-50" },
             { l: "Pendientes", v: stats.pending, c: "text-amber-300" },
             { l: "Confirmadas", v: stats.confirmed, c: "text-green-300" },
             { l: "Personas", v: stats.people, c: "text-marea-200" },
@@ -120,11 +120,11 @@ export function AdminDashboard() {
         <div className="mt-8 flex gap-2 border-b border-marea-400/15">
           {[{ k: "bookings", l: "Reservas" }, { k: "packages", l: "Paquetes" }, { k: "lines", l: "Líneas" }].map((x) => (
             <button key={x.k} onClick={() => setTab(x.k as any)}
-              className={`-mb-px border-b-2 px-4 py-2.5 text-sm font-semibold transition-colors ${tab === x.k ? "border-marea-400 text-white" : "border-transparent text-marea-400 hover:text-marea-200"}`}>
+              className={`-mb-px border-b-2 px-4 py-2.5 text-sm font-semibold transition-colors ${tab === x.k ? "border-marea-400 text-marea-50" : "border-transparent text-marea-400 hover:text-marea-200"}`}>
               {x.l}
             </button>
           ))}
-          <button onClick={load} className="ml-auto px-3 py-2 text-sm text-marea-400 hover:text-white">⟳ Actualizar</button>
+          <button onClick={load} className="ml-auto px-3 py-2 text-sm text-marea-400 hover:text-marea-50">⟳ Actualizar</button>
         </div>
 
         {loading ? (
@@ -146,7 +146,7 @@ function BookingsTab({ bookings, filter, setFilter, setStatus, deleteBooking }: 
     <div className="mt-6">
       <div className="mb-4 flex flex-wrap gap-2">
         {["all", "pending", "confirmed", "cancelled"].map((f) => (
-          <button key={f} onClick={() => setFilter(f)} className={`rounded-full px-4 py-1.5 text-sm capitalize ${filter === f ? "bg-marea-500 text-white" : "bg-marea-900/50 text-marea-300 hover:text-white"}`}>
+          <button key={f} onClick={() => setFilter(f)} className={`rounded-full px-4 py-1.5 text-sm capitalize ${filter === f ? "bg-marea-500 text-white" : "bg-marea-900/50 text-marea-300 hover:text-marea-50"}`}>
             {f === "all" ? "Todas" : f === "pending" ? "Pendientes" : f === "confirmed" ? "Confirmadas" : "Canceladas"}
           </button>
         ))}
@@ -164,7 +164,7 @@ function BookingsTab({ bookings, filter, setFilter, setStatus, deleteBooking }: 
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-semibold text-white">{b.name}</span>
+                      <span className="font-semibold text-marea-50">{b.name}</span>
                       <span className={`rounded-full border px-2 py-0.5 text-xs capitalize ${statusStyles[b.status]}`}>{b.status}</span>
                       <span className="rounded-full bg-marea-800 px-2 py-0.5 text-xs uppercase text-marea-200">{b.language}</span>
                     </div>
@@ -223,14 +223,14 @@ function PackagesTab({ packages, lines, reload }: { packages: Pkg[]; lines: Line
       <div className="space-y-6">
         {byLine.map(({ line, items }) => (
           <div key={line.id}>
-            <h3 className="mb-2 flex items-center gap-2 font-display text-lg font-bold text-white">{line.emoji} {line.nameEs}</h3>
+            <h3 className="mb-2 flex items-center gap-2 font-display text-lg font-bold text-marea-50">{line.emoji} {line.nameEs}</h3>
             <div className="grid gap-3">
               {items.length === 0 && <p className="text-xs text-marea-500">Sin paquetes.</p>}
               {items.map((p) => (
                 <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-marea-400/15 bg-marea-900/40 p-4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white">{p.titleEs}</span>
+                      <span className="font-semibold text-marea-50">{p.titleEs}</span>
                       <span className="rounded bg-marea-700 px-1.5 py-0.5 text-xs text-white">{TYPE_LABELS[p.type]?.es || p.type}</span>
                       {p.featured && <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-xs text-amber-300">★</span>}
                       {!p.active && <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-xs text-red-300">Oculto</span>}
@@ -300,7 +300,7 @@ function PackageEditor({ pkg, lines, onClose, onSaved }: { pkg: Pkg | null; line
   return (
     <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
       <div onClick={(e) => e.stopPropagation()} className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-marea-400/20 bg-marea-950 p-6">
-        <h3 className="font-display text-xl font-bold text-white">{pkg ? "Editar paquete" : "Nuevo paquete"}</h3>
+        <h3 className="font-display text-xl font-bold text-marea-50">{pkg ? "Editar paquete" : "Nuevo paquete"}</h3>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <Field label="Línea"><select className={input} value={form.lineId} onChange={(e) => set("lineId", e.target.value)}>{lines.map((l) => <option key={l.id} value={l.id}>{l.emoji} {l.nameEs}</option>)}</select></Field>
@@ -327,7 +327,7 @@ function PackageEditor({ pkg, lines, onClose, onSaved }: { pkg: Pkg | null; line
         <div className="mt-4 rounded-xl border border-marea-400/15 bg-marea-900/30 p-4">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-marea-300">Disponibilidad</span>
           <div className="flex flex-wrap gap-1.5">
-            {WEEK.map((d) => <button key={d.i} onClick={() => toggleDay(d.i)} className={`w-11 rounded-lg py-2 text-xs font-semibold ${days.includes(d.i) ? "bg-marea-500 text-white" : "bg-marea-900/60 text-marea-400 hover:text-white"}`}>{d.l}</button>)}
+            {WEEK.map((d) => <button key={d.i} onClick={() => toggleDay(d.i)} className={`w-11 rounded-lg py-2 text-xs font-semibold ${days.includes(d.i) ? "bg-marea-500 text-white" : "bg-marea-900/60 text-marea-400 hover:text-marea-50"}`}>{d.l}</button>)}
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <input type="date" value={newBlock} onChange={(e) => setNewBlock(e.target.value)} className={`${input} w-auto`} />
@@ -398,7 +398,7 @@ function LinesTab({ lines, reload }: { lines: Line[]; reload: () => void }) {
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-lg text-xl" style={{ background: l.color + "33" }}>{l.emoji}</span>
               <div>
-                <div className="flex items-center gap-2"><span className="font-semibold text-white">{l.nameEs}</span>{!l.active && <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-xs text-red-300">Oculta</span>}</div>
+                <div className="flex items-center gap-2"><span className="font-semibold text-marea-50">{l.nameEs}</span>{!l.active && <span className="rounded bg-red-500/20 px-1.5 py-0.5 text-xs text-red-300">Oculta</span>}</div>
                 <div className="text-xs text-marea-400">{l.taglineEs || "—"} · {l._count.packages} paquetes</div>
               </div>
             </div>
@@ -418,7 +418,7 @@ function LinesTab({ lines, reload }: { lines: Line[]; reload: () => void }) {
 function LineEditor({ line, onClose, onSaved }: { line: Line | null; onClose: () => void; onSaved: () => void }) {
   const [form, setForm] = useState({
     nameEs: line?.nameEs || "", nameEn: line?.nameEn || "", taglineEs: line?.taglineEs || "", taglineEn: line?.taglineEn || "",
-    emoji: line?.emoji || "🌊", color: line?.color || "#2247cf", order: line?.order ?? 0, slug: line?.slug || "",
+    emoji: line?.emoji || "🌊", color: line?.color || "#4f46e5", order: line?.order ?? 0, slug: line?.slug || "",
   });
   const [saving, setSaving] = useState(false);
   const set = (k: string, v: any) => setForm((f) => ({ ...f, [k]: v }));
@@ -431,7 +431,7 @@ function LineEditor({ line, onClose, onSaved }: { line: Line | null; onClose: ()
   return (
     <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
       <div onClick={(e) => e.stopPropagation()} className="w-full max-w-lg rounded-2xl border border-marea-400/20 bg-marea-950 p-6">
-        <h3 className="font-display text-xl font-bold text-white">{line ? "Editar línea" : "Nueva línea"}</h3>
+        <h3 className="font-display text-xl font-bold text-marea-50">{line ? "Editar línea" : "Nueva línea"}</h3>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <Field label="Nombre (ES)"><input className={input} value={form.nameEs} onChange={(e) => set("nameEs", e.target.value)} /></Field>
           <Field label="Nombre (EN)"><input className={input} value={form.nameEn} onChange={(e) => set("nameEn", e.target.value)} /></Field>

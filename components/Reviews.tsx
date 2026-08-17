@@ -32,7 +32,7 @@ export function Reviews() {
                   {r.name.charAt(0)}
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-white">{r.name}</div>
+                  <div className="text-sm font-semibold text-marea-50">{r.name}</div>
                   <div className="text-xs text-marea-400">{r.country}</div>
                 </div>
               </div>

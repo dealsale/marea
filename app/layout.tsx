@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060c22",
+  themeColor: "#120f33",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -42,6 +42,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={`${display.variable} ${sans.variable}`}>
       <body className="font-sans">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('marea_theme');if(t==='light'||t==='dark')document.documentElement.classList.add(t)}catch(e){}",
+          }}
+        />
         {children}
         <ServiceWorker />
       </body>

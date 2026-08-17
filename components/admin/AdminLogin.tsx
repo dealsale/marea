@@ -44,7 +44,7 @@ export function AdminLogin() {
       >
         <div className="flex flex-col items-center">
           <LogoMark className="h-16 w-16" />
-          <h1 className="mt-4 font-display text-2xl font-bold text-white">Panel Admin</h1>
+          <h1 className="mt-4 font-display text-2xl font-bold text-marea-50">Panel Admin</h1>
           <p className="mt-1 text-sm text-marea-300">Marea Tours</p>
         </div>
         <label className="mt-8 block text-sm text-marea-300">Usuario</label>
@@ -54,7 +54,7 @@ export function AdminLogin() {
           onChange={(e) => setUsername(e.target.value)}
           autoFocus
           autoComplete="username"
-          className="mt-1.5 w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-white outline-none focus:border-marea-400"
+          className="mt-1.5 w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-marea-50 outline-none focus:border-marea-400"
           placeholder="admin"
         />
         <label className="mt-4 block text-sm text-marea-300">Contraseña</label>
@@ -63,7 +63,7 @@ export function AdminLogin() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password"
-          className="mt-1.5 w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-white outline-none focus:border-marea-400"
+          className="mt-1.5 w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-marea-50 outline-none focus:border-marea-400"
           placeholder="••••••••"
         />
         {error && <p className="mt-3 text-sm text-red-400">{error}</p>}

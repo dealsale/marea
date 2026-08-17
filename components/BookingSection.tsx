@@ -133,7 +133,7 @@ export function BookingSection({
   }, [activityInfo, selectedPkg, isHospedaje, nights, extrasSum, people]);
 
   const money = (v: number) => (v === 0 ? t.shop.free : formatPrice(v, "COP", lang));
-  const inputC = "w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-white placeholder-marea-400 outline-none transition-colors focus:border-marea-400";
+  const inputC = "w-full rounded-xl border border-marea-400/20 bg-marea-900/50 px-4 py-3 text-marea-50 placeholder-marea-400 outline-none transition-colors focus:border-marea-400";
 
   const toggleExtra = (id: string) => setExtras((e) => (e.includes(id) ? e.filter((x) => x !== id) : [...e, id]));
 
@@ -188,7 +188,7 @@ export function BookingSection({
               {status === "success" ? (
                 <motion.div key="ok" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="py-8 text-center">
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-500 text-3xl text-white">✓</div>
-                  <h3 className="mt-5 font-display text-2xl font-bold text-white">{t.booking.successTitle}</h3>
+                  <h3 className="mt-5 font-display text-2xl font-bold text-marea-50">{t.booking.successTitle}</h3>
                   <p className="mx-auto mt-3 max-w-md text-marea-200">{t.booking.successMsg}</p>
                   <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
                     {waLink && (
@@ -213,7 +213,7 @@ export function BookingSection({
                     {activityInfo ? (
                       <div className="flex items-center justify-between gap-2 rounded-xl bg-marea-900/50 px-4 py-3 text-sm">
                         <span className="text-marea-100">🎟️ {titleOf} <span className="text-marea-400">· {t.shop.activity}</span></span>
-                        <button type="button" onClick={() => setActivityId(null)} className="text-xs text-marea-300 underline hover:text-white">✕</button>
+                        <button type="button" onClick={() => setActivityId(null)} className="text-xs text-marea-300 underline hover:text-marea-50">✕</button>
                       </div>
                     ) : (
                       <>
@@ -244,7 +244,7 @@ export function BookingSection({
                     <div className="rounded-2xl border border-marea-400/20 bg-marea-950/40 p-4">
                       <div className="mb-3 flex items-center justify-between">
                         <button type="button" disabled={prevBlocked} onClick={() => setView((v) => (v.m === 0 ? { y: v.y - 1, m: 11 } : { ...v, m: v.m - 1 }))} className="flex h-9 w-9 items-center justify-center rounded-lg border border-marea-400/30 text-lg text-white hover:bg-marea-700 disabled:opacity-30">‹</button>
-                        <span className="font-display text-lg font-semibold capitalize text-white">{MONTHS[lang][view.m]} {view.y}</span>
+                        <span className="font-display text-lg font-semibold capitalize text-marea-50">{MONTHS[lang][view.m]} {view.y}</span>
                         <button type="button" onClick={() => setView((v) => (v.m === 11 ? { y: v.y + 1, m: 0 } : { ...v, m: v.m + 1 }))} className="flex h-9 w-9 items-center justify-center rounded-lg border border-marea-400/30 text-lg text-white hover:bg-marea-700">›</button>
                       </div>
                       <div className="mb-1.5 grid grid-cols-7 gap-1">
@@ -344,7 +344,7 @@ export function BookingSection({
                         📅 {selDate ? iso(selDate) : "—"}{!activityInfo && isHospedaje && selDate ? ` · ${nights} ${t.shop.nights}` : !activityInfo && selDate ? ` · ${timeSlot}` : ""}
                       </span>
                       <span className="text-marea-300">{titleOf}</span>
-                      <span className="font-bold text-white">{t.shop.total}: {money(total)}</span>
+                      <span className="font-bold text-marea-50">{t.shop.total}: {money(total)}</span>
                     </div>
                     {error && <p className="mb-3 text-sm text-red-400">{error}</p>}
                     <button type="submit" disabled={status === "loading"} className="btn-glow flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta-500 to-magenta-600 py-3.5 font-semibold text-white disabled:opacity-60">

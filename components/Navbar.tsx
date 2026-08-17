@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Logo } from "./Logo";
 import { InstallButton } from "./pwa/InstallButton";
+import { ThemeToggle } from "./pwa/ThemeToggle";
 import { useLang } from "./LanguageContext";
 
 export function Navbar() {
@@ -44,7 +45,7 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-marea-200 transition-colors hover:text-white"
+              className="text-sm font-medium text-marea-200 transition-colors hover:text-marea-50"
             >
               {l.label}
             </a>
@@ -66,6 +67,7 @@ export function Navbar() {
               </button>
             ))}
           </div>
+          <ThemeToggle />
           <div className="hidden lg:block">
             <InstallButton variant="nav" />
           </div>

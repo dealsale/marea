@@ -36,7 +36,7 @@ export function LineSection({
           <div>
             <div className="flex items-center gap-2">
               <span className="text-2xl">{line.emoji}</span>
-              <h3 className="font-display text-3xl font-bold text-white">{lang === "es" ? line.nameEs : line.nameEn}</h3>
+              <h3 className="font-display text-3xl font-bold text-marea-50">{lang === "es" ? line.nameEs : line.nameEn}</h3>
             </div>
             <p className="mt-1 text-marea-300">{lang === "es" ? line.taglineEs : line.taglineEn}</p>
           </div>
@@ -44,7 +44,7 @@ export function LineSection({
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setType("all")}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${type === "all" ? "bg-marea-500 text-white" : "bg-marea-900/50 text-marea-300 hover:text-white"}`}
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${type === "all" ? "bg-marea-500 text-white" : "bg-marea-900/50 text-marea-300 hover:text-marea-50"}`}
               >
                 {t.shop.allTypes}
               </button>
@@ -52,7 +52,7 @@ export function LineSection({
                 <button
                   key={tp}
                   onClick={() => setType(tp)}
-                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${type === tp ? "bg-marea-500 text-white" : "bg-marea-900/50 text-marea-300 hover:text-white"}`}
+                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${type === tp ? "bg-marea-500 text-white" : "bg-marea-900/50 text-marea-300 hover:text-marea-50"}`}
                 >
                   {TYPE_LABELS[tp][lang]}
                 </button>
