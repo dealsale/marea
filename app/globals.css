@@ -13,9 +13,15 @@
   --m600: 79 70 229;
   --m700: 67 56 202;
   --m800: 224 223 247;
-  --m900: 210 210 244;
-  --m950: 245 244 255;
+  --m900: 214 205 240;
+  --m950: 230 216 247; /* fondo lila (día) */
   --marea-glow: 99, 102, 241;
+  /* Colombia map — day: índigo */
+  --map-fill: #4338ca;
+  --map-stroke: #818cf8;
+  --map-hover-fill: #c7d2fe;
+  --map-hover-stroke: #a5b4fc;
+  --map-glow: 99 102 241;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +37,12 @@
     --m800: 38 32 102;
     --m900: 28 24 80;
     --m950: 18 15 51;
+    /* Colombia map — night: magenta (color del botón) */
+    --map-fill: #c026d3;
+    --map-stroke: #e879f9;
+    --map-hover-fill: #f5d0fe;
+    --map-hover-stroke: #f0abfc;
+    --map-glow: 217 70 239;
   }
 }
 
@@ -46,6 +58,12 @@
   --m800: 38 32 102;
   --m900: 28 24 80;
   --m950: 18 15 51;
+  /* Colombia map — night: magenta (color del botón) */
+  --map-fill: #c026d3;
+  --map-stroke: #e879f9;
+  --map-hover-fill: #f5d0fe;
+  --map-hover-stroke: #f0abfc;
+  --map-glow: 217 70 239;
 }
 
 html { scroll-behavior: smooth; }

@@ -33,11 +33,12 @@ export function ColombiaMap() {
       onMouseMove={(e) => track(e.clientX, e.clientY)}
     >
       {/* ambient glow */}
-      <div className="absolute -inset-8 rounded-full bg-marea-500/25 blur-3xl" />
+      <div className="absolute -inset-8 rounded-full blur-3xl" style={{ background: "rgb(var(--map-glow) / 0.28)" }} />
 
       <svg
         viewBox={CO_VIEWBOX}
-        className="relative h-auto w-full drop-shadow-[0_10px_40px_rgba(99,102,241,0.45)]"
+        className="relative h-auto w-full"
+        style={{ filter: "drop-shadow(0 10px 40px rgb(var(--map-glow) / 0.45))" }}
         role="img"
         aria-label={lang === "es" ? "Mapa interactivo de Colombia" : "Interactive map of Colombia"}
       >
@@ -54,12 +55,12 @@ export function ColombiaMap() {
                 setActive((a) => (a === d.id ? null : d.id));
               }}
               style={{
-                fill: on ? "#c7d2fe" : "#4338ca",
-                stroke: on ? "#a5b4fc" : "#818cf8",
+                fill: on ? "var(--map-hover-fill)" : "var(--map-fill)",
+                stroke: on ? "var(--map-hover-stroke)" : "var(--map-stroke)",
                 strokeWidth: on ? 1.4 : 0.7,
                 cursor: "pointer",
                 transition: "fill .18s, stroke .18s",
-                filter: on ? "drop-shadow(0 0 6px rgba(199,210,254,.9))" : "none",
+                filter: on ? "drop-shadow(0 0 6px var(--map-hover-fill))" : "none",
               }}
             >
               <title>{d.name}</title>
